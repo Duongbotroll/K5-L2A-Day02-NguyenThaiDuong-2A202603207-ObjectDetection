@@ -32,7 +32,18 @@ Xem [GUIDELINE_MINI.md](../../GUIDELINE_MINI.md). Ba ca mơ hồ (drive_001, dri
 Kết quả ở `outputs/annotation_evaluation.json`. Mean IoU 0.81 cho thấy box bám sát; F1 thấp do nhiều box không ghép được (FP/FN). Nguyên nhân cần kiểm tra: sai lớp, bỏ sót xe nhỏ/xa, vẽ thêm xe gold không gán. Ngoài ra nhãn eval do giảng viên cung cấp có vẻ dùng class ID khác schema (xe buýt mang ID 3, minivan ID 1), có thể ảnh hưởng matching theo lớp — đã báo giảng viên. Chưa kịp rework trước hạn do sự cố mạng (mục 6).
 
 ## 5. Kết quả YOLO
-[điền sau khi Colab chạy xong]
+- Runtime: Google Colab, CPU (GPU_mem 0G — không được cấp GPU), ~40s/epoch, 50 epoch. Ultralytics/Torch: [xem dòng đầu log train]
+- Tham số: giữ nguyên notebook (yolo26n.pt, epochs=50, imgsz=640, seed=20260909).
+- Best checkpoint: /content/Day2-Lab/outputs/yolo26_runs/vehicle_annotation/weights/best.pt
+
+| Chỉ số trên 10 ảnh eval | Giá trị |
+|---|---:|
+| Precision | 0.3902 |
+| Recall | 0.2805 |
+| mAP50 | 0.2764 |
+| mAP50–95 | 0.2048 |
+
+Ảnh dự đoán: [assets/eval_predictions/visuals/](assets/eval_predictions/visuals/) — ví dụ [drive_051](assets/eval_predictions/visuals/drive_051.jpg). Log train và confusion matrix: [assets/yolo26_runs/](assets/yolo26_runs/).
 
 4. Vì sao không dùng 10 ảnh eval để train? Vì eval dùng để đo khả năng tổng quát của model; nếu train trên đó thì metric bị đánh giá quá cao. Trong notebook, eval còn là validation để chọn best.pt nên không phải test set độc lập.
 
