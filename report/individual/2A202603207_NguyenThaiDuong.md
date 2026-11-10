@@ -61,7 +61,7 @@ Kết quả ở `outputs/annotation_evaluation.json`. Mean IoU 0.81 cho thấy b
 4. Vì sao không dùng 10 ảnh eval để train? Vì eval dùng để đo khả năng tổng quát của model; nếu train trên đó thì metric bị đánh giá quá cao. Trong notebook, eval còn là validation để chọn best.pt nên không phải test set độc lập.
 
 ## 6. Khó khăn và cách xử lý
-
+| Hôm qua máy em chưa cài được Ubuntu nên em dùng tạm Cvat online để label.
 | Bước/thời điểm | Lỗi quan sát | Cách đã thử | Kết quả/còn thiếu |
 |---|---|---|---|
 | 10/11 sáng | Không vào được GitHub/CVAT (ERR_ADDRESS_UNREACHABLE) | Đổi mạng, thử lại | Mất ~30 phút, không kịp rework |
