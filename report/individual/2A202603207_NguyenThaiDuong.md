@@ -5,7 +5,7 @@
 - MSSV: 2A202603207
 - Lớp: K5 L2A
 - Link repo bài làm: https://github.com/Duongbotroll/K5-L2A-Day02-NguyenThaiDuong-2A202603207-ObjectDetection
-- Link Colab đã chạy: [dán link sau khi chạy xong]
+- Link Colab đã chạy: https://colab.research.google.com/drive/1EW3NzRQyJoCbYD6fm8zjqFlSTfZBWNhj?usp=sharing
 
 ## 2. Schema và mini guideline
 Xem [GUIDELINE_MINI.md](../../GUIDELINE_MINI.md). Ba ca mơ hồ (drive_001, drive_017, drive_043) đều là xe bị che/mờ nhưng vẫn nhận diện được lớp → vẫn gán box quanh phần nhìn thấy.
@@ -14,7 +14,7 @@ Xem [GUIDELINE_MINI.md](../../GUIDELINE_MINI.md). Ba ca mơ hồ (drive_001, dri
 - Số file nhãn train: 50 (632 box)
 - Checker: ĐẠT 50/50. Lỗi đã xử lý: lần export đầu từ CVAT nhầm định dạng "CVAT for images" (XML) nên 50 file nhãn rỗng; đã chuyển XML sang YOLO theo công thức trong GUIDE.md và kiểm tra lại.
 - Ảnh đã rà bằng mắt: drive_001, drive_003, drive_005, drive_010, drive_017, drive_020, drive_025, drive_030, drive_043, drive_050.
-- Commit khóa nhãn: f82d774
+- Commit khóa nhãn: 98c68dc (do lỗi export, 50 file nhãn rỗng). f82d774 chỉ chuyển định dạng từ chính file CVAT đã export trước khi nhận gold (XML → YOLO), không sửa box nào. Lần chấm gold đầu (trên nhãn rỗng) cho TP=0, FN=653.
 
 ## 4. Gold QC và rework
 
@@ -32,7 +32,7 @@ Xem [GUIDELINE_MINI.md](../../GUIDELINE_MINI.md). Ba ca mơ hồ (drive_001, dri
 Kết quả ở `outputs/annotation_evaluation.json`. Mean IoU 0.81 cho thấy box bám sát; F1 thấp do nhiều box không ghép được (FP/FN). Nguyên nhân cần kiểm tra: sai lớp, bỏ sót xe nhỏ/xa, vẽ thêm xe gold không gán. Ngoài ra nhãn eval do giảng viên cung cấp có vẻ dùng class ID khác schema (xe buýt mang ID 3, minivan ID 1), có thể ảnh hưởng matching theo lớp — đã báo giảng viên. Chưa kịp rework trước hạn do sự cố mạng (mục 6).
 
 ## 5. Kết quả YOLO
-- Runtime: Google Colab, CPU (GPU_mem 0G — không được cấp GPU), ~40s/epoch, 50 epoch. Ultralytics/Torch: [xem dòng đầu log train]
+- Runtime: Google Colab, CPU (GPU_mem 0G — không được cấp GPU), ~40s/epoch, 50 epoch. Ultralytics/Torch: Ultralytics 8.4.208 🚀 Python-3.13.18 torch-2.14.1+cpu CPU (Intel Xeon CPU @ 2.20GHz)
 - Tham số: giữ nguyên notebook (yolo26n.pt, epochs=50, imgsz=640, seed=20260909).
 - Best checkpoint: /content/Day2-Lab/outputs/yolo26_runs/vehicle_annotation/weights/best.pt
 
@@ -53,9 +53,11 @@ Kết quả ở `outputs/annotation_evaluation.json`. Mean IoU 0.81 cho thấy b
 |---|---|---|---|
 | 10/11 sáng | Không vào được GitHub/CVAT (ERR_ADDRESS_UNREACHABLE) | Đổi mạng, thử lại | Mất ~30 phút, không kịp rework |
 | Export nhãn | Export nhầm định dạng XML → nhãn rỗng | Chuyển XML sang YOLO bằng script | Đạt checker 50/50 |
+| 10/11 ~11:20–12:08 | Colab không cấp GPU, train CPU ~40s/epoch | Giữ nguyên để không mất tiến độ | Train xong ~12:05, push kết quả Colab sau deadline; đã báo giảng viên |
 
 ## 7. Tự đánh giá theo rubric
-Đã có: 50 nhãn đúng định dạng, guideline + 3 ca mơ hồ, gold QC (IoU đạt, F1 chưa đạt, chưa rework). Pipeline YOLO: [cập nhật].
+Đã có: 50 nhãn đúng định dạng, guideline + 3 ca mơ hồ, gold QC (IoU đạt, F1 chưa đạt, chưa rework). 
+Pipeline YOLO: Colab chạy hết, giữ đúng split (không dùng eval để train), có metrics và 10 ảnh dự đoán trong assets/; kết quả Colab push sau 11:59.
 
 ## 8. Công cụ AI và tài liệu tham khảo
 Dùng Claude để hỏi quy trình, cách dùng CVAT/Codespaces/Colab, viết script chuyển định dạng XML→YOLO và các lệnh git. Nhãn do tôi tự vẽ trên CVAT; số liệu lấy từ kết quả chạy thật.
