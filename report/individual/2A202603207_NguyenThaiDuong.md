@@ -42,7 +42,20 @@ Kết quả ở `outputs/annotation_evaluation.json`. Mean IoU 0.81 cho thấy b
 | Recall | 0.2805 |
 | mAP50 | 0.2764 |
 | mAP50–95 | 0.2048 |
+**Metrics theo lớp:**
 
+| Lớp | Instances | Recall (R) |
+|---|---:|---:|
+| car | 94 | 0.755 |
+| truck | 5 | 0.200 |
+| bus | 2 | 0.000 |
+| van | 12 | 0.167 |
+
+**Trả lời câu hỏi cuối notebook:**
+
+1. Lớp có recall thấp nhất là `bus` (R = 0.000, chỉ có 2 mẫu trong eval).
+2. Với lớp `car`, mAP50 = 0.737 nhưng mAP50–95 = 0.518.
+3. Lớp `van` có 12 mẫu trong eval nhưng mAP50 chỉ đạt 0.079.
 Ảnh dự đoán: [assets/eval_predictions/visuals/](assets/eval_predictions/visuals/) — ví dụ [drive_051](assets/eval_predictions/visuals/drive_051.jpg). Log train và confusion matrix: [assets/yolo26_runs/](assets/yolo26_runs/).
 
 4. Vì sao không dùng 10 ảnh eval để train? Vì eval dùng để đo khả năng tổng quát của model; nếu train trên đó thì metric bị đánh giá quá cao. Trong notebook, eval còn là validation để chọn best.pt nên không phải test set độc lập.
